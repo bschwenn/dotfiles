@@ -1,0 +1,8 @@
+[user]
+	name = Ben Schwennesen
+	email = bas65@duke.edu
+[alias]
+	st = status
+	br = branch
+	co = checkout
+	ci = commit
