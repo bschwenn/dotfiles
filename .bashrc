@@ -5,4 +5,4 @@ RESET="\[$(tput sgr0)\]"
 export PS1="${PROMPT_COLOR}\u \W $: ${RESET}"
 
 # Git dotfiles bare repo config
-alias config='/usr/bin/git --git-dir=/Users/sol/.cfg/ --work-tree=/Users/sol'
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
