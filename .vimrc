@@ -12,17 +12,24 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'keith/rspec.vim'
 Plugin 'tpope/vim-endwise'
+Plugin 'lifepillar/vim-solarized8'
+Plugin 'solarnz/thrift.vim'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plugin 'fatih/vim-go'
 call vundle#end()            " required
 filetype plugin indent on    " required
 execute pathogen#infect()
 " Ruby highlighting
 Bundle 'vim-ruby/vim-ruby'
-" Power!
-set nocompatible      " We're running Vim, not Vi!
-syntax on             " Enable syntax highlighting
-filetype on           " Enable filetype detection
-filetype indent on    " Enable filetype-specific indenting
-filetype plugin on    " Enable filetype-specific plugins
+
+" Highlighting
+syntax on
+" Filetype detection => specific indenting and plugins
+filetype on
+filetype indent on
+filetype plugin on
 set tabstop=2
 
 """ NERDTree stuff (start automatically, etc.)
@@ -36,9 +43,11 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " Use ctrl-n to toggle the NERDTree
 map <C-n> :NERDTreeToggle<CR>
+map <Bslash> <C-w>
 
 " CtrlP stuff
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+set rtp+=/usr/local/opt/fzfk
 
 " Show line numbers
 set number
@@ -49,12 +58,10 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
-" Turn off vi compatibility
-set nocompatible
-
 " Indentation
 set smartindent
 set autoindent
+
 " No tabs
 set tabstop=2 softtabstop=2 expandtab shiftwidth=2 smarttab
 autocmd Filetype rb setlocal tabstop=2
@@ -65,8 +72,8 @@ filetype indent on
 " Remove whitespace on save
 autocmd BufWritePre * :%s/\s\+$//e
 
-" Use bash aliases
-set shellcmdflag=-ic
+" Use zsh
+set shell=zsh
 
 " Color scheme
 set background=dark
@@ -80,8 +87,22 @@ set termguicolors
 " Overlength highlighting
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 autocmd BufNewFile,BufRead *.rb match OverLength /\%101v.\+/
-autocmd BufNewFile,BufRead *.md match OverLength /\%81v.\+/
+" autocmd BufNewFile,BufRead *.md match OverLength /\%81v.\+/
 
 " Aliases
 cnoreabbrev <expr> op ((getcmdtype() is# ':' && getcmdline() is# 'op')?('CtrlP'):('op'))
 
+" Airflow file syntax highlighting
+au BufNewFile,BufRead *.conf set filetype=python
+
+" Ctrl p shit
+let g:ctrlp_max_files=0
+let g:ctrlp_max_depth=40
+if getcwd() =~ '/repos/'
+  let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|vendor\|build$'
+else
+  let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|vendor\|build$\|repos'
+endif
+
+" Unify system clipboard
+set clipboard=unnamed
